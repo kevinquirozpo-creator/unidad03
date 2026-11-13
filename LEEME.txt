@@ -1,0 +1,28 @@
+PROYECTO NETBEANS - MIS PRACTICAS + TERRENO
+
+Este proyecto abre en Apache NetBeans como proyecto Maven (File > Open Project).
+
+ARCHIVOS:
+- jdgMenu.java y jdgMenu.form: menu principal editable en Design.
+- jifTerreno.java y jifTerreno.form: formulario de terrenos editable en Design.
+- Terreno.java: constructores, getters/setters, area, perimetro e imprimir.
+- UNIDAD003.java: clase sin logica, como se pidio.
+
+EJECUTAR MENU:
+- Pulsa F6 (Run Project). La clase inicial configurada es com.mycompany.unidad003.jdgMenu.
+- Tambien puedes seleccionar jdgMenu.java en Source Packages y ejecutar Run File (Shift+F6).
+
+EJECUTAR SOLO TERRENO:
+- Selecciona jifTerreno.java en el panel Projects (no en el texto del editor).
+- Clic derecho > Run File, o pulsa Shift+F6.
+- Su metodo main crea un JFrame y un JDesktopPane para mostrar el JInternalFrame.
+
+DESIGN:
+- Abre jdgMenu.java o jifTerreno.java y selecciona la pestana Design.
+- No modifiques a mano el codigo generado initComponents().
+
+PRUEBA:
+- Nuevo -> Numero de terreno 1, Ancho 10, Largo 20 -> Guardar -> Mostrar.
+- Area esperada = 200; perimetro esperado = 60.
+
+Cotizacion y Registro Producto son opciones del menu, sin formularios aun.
