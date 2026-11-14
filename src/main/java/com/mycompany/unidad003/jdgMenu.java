@@ -90,27 +90,40 @@ public class jdgMenu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemTerrenoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemTerrenoActionPerformed
-        // Si ya esta abierto, lo trae al frente en lugar de abrir otro.
-        for (JInternalFrame abierto : escritorio.getAllFrames()) {
-            if (abierto instanceof jifTerreno && !abierto.isClosed()) {
-                try {
-                    abierto.setIcon(false);
-                    abierto.setSelected(true);
-                } catch (PropertyVetoException ex) {
-                    // Aunque no se pueda seleccionar, se puede traer al frente.
-                }
-                abierto.toFront();
-                return;
-            }
-        }
-        jifTerreno ventanaTerreno = new jifTerreno();
-        escritorio.add(ventanaTerreno);
-        ventanaTerreno.setLocation(24, 24);
-        ventanaTerreno.setVisible(true);
+        // Abre Terreno dentro del escritorio; si ya estaba abierto, lo muestra.
         try {
-            ventanaTerreno.setSelected(true);
-        } catch (PropertyVetoException ex) {
-            ventanaTerreno.toFront();
+            jifTerreno formulario = null;
+            for (JInternalFrame abierto : escritorio.getAllFrames()) {
+                if (abierto instanceof jifTerreno && !abierto.isClosed()) {
+                    formulario = (jifTerreno) abierto;
+                    break;
+                }
+            }
+
+            if (formulario == null) {
+                formulario = new jifTerreno();
+                escritorio.add(formulario, javax.swing.JLayeredPane.DEFAULT_LAYER);
+                formulario.setLocation(22, 22);
+            }
+            formulario.setVisible(true);
+            if (formulario.isIcon()) {
+                formulario.setIcon(false);
+            }
+            formulario.moveToFront();
+            formulario.toFront();
+            try {
+                formulario.setSelected(true);
+            } catch (PropertyVetoException ex) {
+                formulario.requestFocusInWindow();
+            }
+            escritorio.revalidate();
+            escritorio.repaint();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "No se pudo abrir Terreno: " + ex.getClass().getSimpleName()
+                    + " - " + ex.getMessage(),
+                "Error al abrir Terreno", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_itemTerrenoActionPerformed
 
