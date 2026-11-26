@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS cotizaciones;
+USE cotizaciones;
+CREATE TABLE IF NOT EXISTS Cotizacion (
+ idCotizacion INT AUTO_INCREMENT PRIMARY KEY,
+ numCotizacion VARCHAR(30) NOT NULL UNIQUE,
+ descripcion VARCHAR(255) NOT NULL,
+ precio DECIMAL(12,2) NOT NULL,
+ porcentaje DECIMAL(5,2) NOT NULL,
+ plazo INT NOT NULL,
+ fecha DATE NOT NULL,
+ status INT NOT NULL DEFAULT 1
+);

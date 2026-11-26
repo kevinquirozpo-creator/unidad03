@@ -1,0 +1,39 @@
+@startuml
+class Cotizacion {
+- idCotizacion : int
+- numCotizacion : String
+- descripcion : String
+- porcentaje : float
+- precio : float
+- plazo : int
+- fecha : Date
+- status : int
++ calcularPagoInicial() : float
++ calcularTotalFin() : float
++ calcularPagoMensual() : float
+}
+interface dbMetodos {
++ abrir() : boolean
++ cerrar() : boolean
++ insertar(obj : Object) : int
++ actualizar(obj : Object) : int
++ habilitar(id : int) : int
++ deshabilitar(id : int) : int
++ buscar(id : int) : Object
++ buscar(num : String) : Object
+}
+class CotizacionDb
+class jdlCotizacion {
++ limpiar()
++ habilitar()
++ deshabilitar()
++ validar() : boolean
++ llenarObjeto() : Cotizacion
++ mostrarDatos(c : Cotizacion)
++ mostrarMensaje(mensaje : String)
+}
+CotizacionDb ..|> dbMetodos
+CotizacionDb ..> Cotizacion
+jdlCotizacion --> CotizacionDb
+jdlCotizacion ..> Cotizacion
+@enduml
