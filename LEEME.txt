@@ -1,0 +1,12 @@
+PROYECTO NETBEANS: Mis Practicas + Terreno
+
+1. Extrae esta carpeta completa dentro de Documentos\NetBeansProjects.
+2. En Apache NetBeans: File > Open Project. Selecciona la carpeta que contiene pom.xml.
+3. Run > Clean and Build Project (Shift+F11).
+4. Abre jdgMenu.java y ejecuta Run File (Shift+F6).
+5. Haz clic en Mis Practicas > Terreno, o pulsa Ctrl+T. Debe aparecer el formulario en el area gris.
+6. Alternativa: abre jifTerreno.java y ejecuta Run File (Shift+F6) para abrirlo solo.
+
+En Design: jdgMenu.form y jifTerreno.form estan incluidos.
+Si sale un aviso con clase y mensaje de error, captura ese aviso y la ventana Output.
+No sustituyas archivos individuales de otro proyecto; abre esta carpeta como proyecto nuevo.
