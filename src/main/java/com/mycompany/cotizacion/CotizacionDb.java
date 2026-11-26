@@ -1,6 +1,8 @@
+
 package com.mycompany.cotizacion;
 
 import java.sql.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
@@ -10,9 +12,13 @@ public class CotizacionDb implements dbMetodos {
     private static String password;
     public String error = "";
 
+    // ABRIR CONEXION
+
     @Override
     public boolean abrir() {
+
         try {
+
             String url = "jdbc:mysql://localhost:3306/cotizaciones";
             String usuario = "root";
 
@@ -47,28 +53,39 @@ public class CotizacionDb implements dbMetodos {
             return true;
 
         } catch (SQLException e) {
+
             error = e.getMessage();
             password = null;
             return false;
         }
     }
 
+    // CERRAR CONEXION
+
     @Override
     public boolean cerrar() {
+
         try {
+
             if (conexion != null) {
                 conexion.close();
+                conexion = null;
             }
+
             return true;
 
         } catch (SQLException e) {
+
             error = e.getMessage();
             return false;
         }
     }
 
+    // INSERTAR COTIZACION
+
     @Override
     public int insertar(Object obj) {
+
         Cotizacion c = (Cotizacion) obj;
 
         if (!abrir()) {
@@ -94,6 +111,7 @@ public class CotizacionDb implements dbMetodos {
             p.executeUpdate();
 
             try (ResultSet r = p.getGeneratedKeys()) {
+
                 if (r.next()) {
                     return r.getInt(1);
                 }
@@ -102,16 +120,21 @@ public class CotizacionDb implements dbMetodos {
             return -1;
 
         } catch (SQLException e) {
+
             error = e.getMessage();
             return -1;
 
         } finally {
+
             cerrar();
         }
     }
 
+    // ACTUALIZAR COTIZACION
+
     @Override
     public int actualizar(Object obj) {
+
         Cotizacion c = (Cotizacion) obj;
 
         if (!abrir()) {
@@ -138,23 +161,33 @@ public class CotizacionDb implements dbMetodos {
             return p.executeUpdate();
 
         } catch (SQLException e) {
+
             error = e.getMessage();
             return -1;
 
         } finally {
+
             cerrar();
         }
     }
 
+    // HABILITAR COTIZACION
+
     @Override
     public int habilitar(int id) {
+
         return cambiarEstado(id, 1);
     }
 
+    // DESHABILITAR COTIZACION
+
     @Override
     public int deshabilitar(int id) {
+
         return cambiarEstado(id, 0);
     }
+
+    // CAMBIAR ESTADO
 
     private int cambiarEstado(int id, int status) {
 
@@ -173,23 +206,33 @@ public class CotizacionDb implements dbMetodos {
             return p.executeUpdate();
 
         } catch (SQLException e) {
+
             error = e.getMessage();
             return -1;
 
         } finally {
+
             cerrar();
         }
     }
 
+    // BUSCAR POR ID
+
     @Override
     public Object buscar(int id) {
+
         return buscarCampo("idCotizacion", id);
     }
 
+    // BUSCAR POR NUMERO
+
     @Override
     public Object buscar(String num) {
+
         return buscarCampo("numCotizacion", num);
     }
+
+    // BUSCAR REGISTROS
 
     private Cotizacion buscarCampo(String campo, Object valor) {
 
@@ -207,6 +250,7 @@ public class CotizacionDb implements dbMetodos {
             try (ResultSet r = p.executeQuery()) {
 
                 if (r.next()) {
+
                     return new Cotizacion(
                             r.getInt("idCotizacion"),
                             r.getString("numCotizacion"),
@@ -221,12 +265,62 @@ public class CotizacionDb implements dbMetodos {
             }
 
         } catch (SQLException e) {
+
             error = e.getMessage();
 
         } finally {
+
             cerrar();
         }
 
         return null;
+    }
+
+    // LISTAR COTIZACIONES ACTIVAS E INACTIVAS
+
+    public ArrayList<Cotizacion> listar(int status) {
+
+        ArrayList<Cotizacion> lista = new ArrayList<>();
+
+        if (!abrir()) {
+            return lista;
+        }
+
+        String sql = "SELECT * FROM Cotizacion "
+                + "WHERE status=? ORDER BY idCotizacion";
+
+        try (PreparedStatement p = conexion.prepareStatement(sql)) {
+
+            p.setInt(1, status);
+
+            try (ResultSet r = p.executeQuery()) {
+
+                while (r.next()) {
+
+                    Cotizacion c = new Cotizacion(
+                            r.getInt("idCotizacion"),
+                            r.getString("numCotizacion"),
+                            r.getString("descripcion"),
+                            r.getFloat("porcentaje"),
+                            r.getFloat("precio"),
+                            r.getInt("plazo"),
+                            r.getDate("fecha"),
+                            r.getInt("status")
+                    );
+
+                    lista.add(c);
+                }
+            }
+
+        } catch (SQLException e) {
+
+            error = e.getMessage();
+
+        } finally {
+
+            cerrar();
+        }
+
+        return lista;
     }
 }
